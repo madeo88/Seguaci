@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instagram Followers</title>
+    <style>
+        .follower-box {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .follower-box img {
+            width: 80px;
+            height: 80px;
+            margin-top: 10px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="followers-container"></div>
+
+    <script>
+        // Replace with your Instagram profile username
+        const profileUsername = "davidsmade";
+        // Replace with your Instagram access token or use an alternative method to fetch the access token securely
+        const accessToken = "YOUR_ACCESS_TOKEN";
+
+        // Fetch followers' avatars from Instagram API
+        fetch(`https://graph.instagram.com/${profileUsername}/followers?fields=profile_picture_url&access_token=${accessToken}`)
+            .then(response => response.json())
+            .then(data => {
+                const followers = data.data;
+
+                // Create follower boxes with avatar images
+                const followersContainer = document.getElementById("followers-container");
+                followers.forEach(follower => {
+                    const followerBox = document.createElement("div");
+                    followerBox.className = "follower-box";
+
+                    const avatarImage = document.createElement("img");
+                    avatarImage.src = follower.profile_picture_url;
+
+                    followerBox.appendChild(avatarImage);
+                    followersContainer.appendChild(followerBox);
+                });
+            })
+            .catch(error => {
+                console.error("An error occurred while fetching followers:", error);
+            });
+    </script>
+</body>
+</html>
